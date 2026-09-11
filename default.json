@@ -10,6 +10,17 @@
     {
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions"
+    },
+    {
+      "description": "CI lanes pin the Node.js version on purpose (floor and latest); do not widen or bump it",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["node"],
+      "enabled": false
+    },
+    {
+      "description": ".mise.toml pins the local toolchain to the CI latest lane; it is updated by hand together with CI",
+      "matchManagers": ["mise"],
+      "enabled": false
     }
   ]
 }
