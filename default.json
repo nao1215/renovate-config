@@ -21,6 +21,12 @@
       "description": ".mise.toml pins the local toolchain to the CI latest lane; it is updated by hand together with CI",
       "matchManagers": ["mise"],
       "enabled": false
+    },
+    {
+      "description": "CI lanes pin the BEAM toolchain on purpose (the floor lane matches gleam.toml and the oldest maintained OTP, release builds the escript on that OTP, the latest lane floats on 1.x); do not bump what erlef/setup-beam installs",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["gleam-lang/gleam", "erlang/otp", "erlang/rebar3"],
+      "enabled": false
     }
   ]
 }
