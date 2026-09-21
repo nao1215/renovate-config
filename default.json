@@ -6,6 +6,18 @@
   "lockFileMaintenance": {
     "enabled": true
   },
+  "customManagers": [
+    {
+      "description": "atago and himorime always follow their latest release: bump the version input given to setup-atago / setup-himorime",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.ya?ml$/"],
+      "matchStrings": [
+        "uses: nao1215/setup-(?<depName>atago|himorime)@[^\\n]*\\n(?:[ \\t]+[^\\n]*\\n)*?[ \\t]+version: [\"']?(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)[\"']?"
+      ],
+      "packageNameTemplate": "nao1215/{{{depName}}}",
+      "datasourceTemplate": "github-releases"
+    }
+  ],
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
@@ -27,6 +39,12 @@
       "matchManagers": ["github-actions"],
       "matchDepNames": ["gleam-lang/gleam", "erlang/otp", "erlang/rebar3"],
       "enabled": false
+    },
+    {
+      "description": "Group the atago and himorime bumps so every workflow of a repository moves in one pull request",
+      "matchManagers": ["custom.regex"],
+      "matchPackageNames": ["nao1215/atago", "nao1215/himorime"],
+      "groupName": "atago and himorime"
     }
   ]
 }
