@@ -2,10 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "timezone": "Asia/Tokyo",
+  "schedule": ["* 0-5 1 * *"],
   "rangeStrategy": "widen",
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": true,
+    "schedule": ["* 0-5 1 * *"]
   },
+  "osvVulnerabilityAlerts": true,
   "customManagers": [
     {
       "description": "atago and himorime always follow their latest release: bump the version input given to setup-atago / setup-himorime",
@@ -20,8 +23,10 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions"
+      "description": "Put every dependency update (GitHub Actions, Hex, Docker, atago and himorime) in one pull request a month. A major update still gets its own grouped pull request (separateMajorMinor stays true), so a breaking major can be closed or fixed without holding back the rest",
+      "matchPackageNames": ["*"],
+      "groupName": "all dependencies",
+      "groupSlug": "all"
     },
     {
       "description": "CI lanes pin the Node.js version on purpose (floor and latest); do not widen or bump it",
@@ -39,12 +44,6 @@
       "matchManagers": ["github-actions"],
       "matchDepNames": ["gleam-lang/gleam", "erlang/otp", "erlang/rebar3"],
       "enabled": false
-    },
-    {
-      "description": "Group the atago and himorime bumps so every workflow of a repository moves in one pull request",
-      "matchManagers": ["custom.regex"],
-      "matchPackageNames": ["nao1215/atago", "nao1215/himorime"],
-      "groupName": "atago and himorime"
     }
   ]
 }
